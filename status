@@ -1,0 +1,54 @@
+[33mcommit 7e5068ae30ac4a3ec2bca5fd8a0a41c1d5a5f813[m
+Merge: 06fba9b f11acb0
+Author: Mauricio <mauricio.ccufrj@gmail.com>
+Date:   Tue Sep 27 10:28:07 2016 -0300
+
+    Merge branch 'master' of https://github.com/mborgescc/Code-Repository
+
+[33mcommit 06fba9b512c7587af6f8cf58bb7c60eb9af7ccbb[m
+Author: Mauricio <mauricio.ccufrj@gmail.com>
+Date:   Tue Sep 27 10:22:27 2016 -0300
+
+    Calculate average and var of population
+
+[33mcommit f11acb09a1e90ab4514c0133ed68b3a8deac2592[m
+Author: Mauricio <mauricio.ccufrj@gmail.com>
+Date:   Tue Sep 13 17:49:37 2016 -0300
+
+    Initialize repository
+
+[33mcommit 8138233e94739faa2f1cb43f06321efd597780e0[m
+Author: Mauricio <mauricio.ccufrj@gmail.com>
+Date:   Tue Aug 30 21:36:14 2016 -0300
+
+    Add comments
+
+[33mcommit 649363f7cac0d7705f9466188fea48665d113f3e[m
+Author: Mauricio Junior <mauricio.ccufrj@gmail.com>
+Date:   Tue Aug 30 21:29:36 2016 -0300
+
+    Plot bar statistics
+
+[33mcommit ed0fc0a34fbcbb0d97bba9e60259332dd3ec5c0d[m
+Author: Mauricio Junior <mauricio.ccufrj@gmail.com>
+Date:   Tue Aug 30 19:19:13 2016 -0300
+
+    Check some problems on code
+
+[33mcommit fb728ecf0426eee5dfb5d5a3a97bff98fcd8dc51[m
+Author: Mauricio Junior <mauricio.ccufrj@gmail.com>
+Date:   Tue Aug 30 18:17:13 2016 -0300
+
+    Finalize print version
+
+[33mcommit d34f017da35b5cf494e8743d263b24129524a140[m
+Author: Mauricio Junior <mauricio.ccufrj@gmail.com>
+Date:   Tue Aug 30 17:31:15 2016 -0300
+
+    Finalize print version
+
+[33mcommit dc2e25dbb23b9bb222d86273985c4f522e5c6b6f[m
+Author: Mauricio Junior <mauricio.ccufrj@gmail.com>
+Date:   Tue Aug 30 16:11:08 2016 -0300
+
+    Initialize Code Repository
