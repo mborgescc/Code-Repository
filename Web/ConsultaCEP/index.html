@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<!-- Início do documento -->
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="keywords" content="consulta, cep">
+        <meta name="description" content="Consulte aqui o seu CEP!">
+        <meta name="author" content="Maurício Borges Pereira Júnior">
+        <title> Consulta de CEP </title>
+        <link rel="stylesheet" href="st.css">
+
+        <!-- Código Javascript para busca de CEP -->
+        <script type="text/javascript" src="script.js"></script>
+    </head>
+    <body>
+        <!-- Barra lateral com logotipo -->
+        <header>
+	        <a href="http://americastg.com/pt/ATG_pt">
+	            <img class="logo" src="images/data_logo.png">
+	        </a>
+            <br>
+            <a href="#">
+                <h4 class="head">&gt&gt Consulte CEP</h4>
+            </a>
+        </header>
+
+        <!-- Campo principal para busca de CEP -->
+        <section>
+            <div id="main_block">
+                <h2 class="sect"> Consulte aqui o seu CEP </h2>
+
+                <!-- Formulário -->
+                <form method="get" action="" onsubmit="pesquisacep(document.getElementById('cep').value); return false;">
+                    <input name="cep" type="text" id="cep" value="" size="10" maxlength="9">
+                    <input type="button" value="Consultar" onclick="pesquisacep(document.getElementById('cep').value);">
+                </form>
+                <p id="message"></p>
+
+                <!-- Tabela para impressão das informações -->
+                <table id="tabela">
+                    <tr>
+                        <td>Rua:</td><td id="rua">---</td>
+                    </tr>
+                    <tr>
+                        <td>Bairro:</td><td id="bairro">---</td>
+                    </tr>
+                    <tr>
+                        <td>Cidade:</td><td id="cidade">---</td>
+                    </tr>
+                    <tr>
+                        <td>Estado:</td><td id="uf">---</td>
+                    </tr>
+                    <tr>
+                        <td>IBGE:</td><td id="ibge">---</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- Rodapé da página -->
+        <footer>
+            <h4> Website desenhado e implementado por <a href="https://br.linkedin.com/in/mborgesufrjcc"><cite> Maurício Borges </cite></a> </h4>
+        </footer>
+    </body>
+</html>
+<!-- Fim do documento -->

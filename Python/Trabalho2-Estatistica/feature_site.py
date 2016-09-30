@@ -11,8 +11,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from collections import defaultdict, OrderedDict
 
-error_flag = 0
-
 population_average = 0
 population_var = 0
 
@@ -22,31 +20,33 @@ f = csv.reader(open('populacao_tempo.csv'), delimiter=';')
 
 #Calcula média da população
 for [identifier, time] in f:
-  try:
-    population_size += 1
-    population_average += time
-  except ValueError:
-      if error_flag == 1:
-         print "Houve um erro de leitura. Favor, verificar."
-      error_flag += 1
+	try:
+		time = float(time)
+		population_size += 1
+		population_average += time
+	except ValueError:
+		pass
 
+#Média
 population_average /= population_size
-print ("Média da população: " + str(population_average))
+print("Média da população: " + str(population_average))
+
+f = csv.reader(open('populacao_tempo.csv'), delimiter=';')
 
 #Calcula variância da população
 for [identifier, time] in f:
-  try:
-    population_var += (time - population_average)**2
-  except ValueError:
-      if error_flag == 1:
-         print "Houve um erro de leitura. Favor, verificar."
-      error_flag += 1
+	try:
+		time = float(time)
+		population_var += (time - population_average)**2
+	except ValueError:
+		pass
 
+#Variância
 population_var /= population_size
-print ("Variâmcia da população: " + str(population_average))
+print("Variância da população: " + str(population_var))
 
 ## Agora temos os parâmetros da população
-
+'''
 #Divide a forca total acumulada pelo numero de pokemons
 for info in types:
    types[info] = types[info][0]/types[info][1]
@@ -78,3 +78,4 @@ plt.legend()
 
 plt.tight_layout()
 plt.show()
+'''
