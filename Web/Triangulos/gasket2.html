@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<!-- Início do documento -->
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8">
+	<meta name="keywords" content="triangulo, trabalho, computação gráfica, torção, rodar">
+	<meta name="description" content="Aplicação em WebGL para desenhar recursivamente triângulos e criar efeitos.">
+	<meta name="author" content="Maurício Borges Pereira Júnior">
+	<title> Trabalho em WebGL </title>
+	<link rel="stylesheet" href="st.css">
+
+	<!-- Código Javascript para busca de CEP -->
+	<script id="vertex-shader" type="x-shader/x-vertex">
+		attribute vec4 vPosition;
+		uniform mat4 rotationMatrix;
+
+		void
+		main()
+		{
+			gl_Position = rotationMatrix * vPosition;
+		}
+	</script>
+
+	<script id="fragment-shader" type="x-shader/x-fragment">
+		precision mediump float;
+
+		void
+		main()
+		{
+			gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0 );
+		}
+	</script>
+
+	<script type="text/javascript" src="./gasket2_files/webgl-utils.js"></script>
+	<script type="text/javascript" src="./gasket2_files/initShaders.js"></script>
+	<script type="text/javascript" src="./gasket2_files/MV.js"></script>
+	<script type="text/javascript" src="./gasket2_files/gasket2.js"></script>
+</head>
+<body>
+	<!-- Barra lateral com logo e opções -->
+	<header>
+		<a href="http://orion.lcg.ufrj.br/WebGL/">
+			<img class="logo" src="images/webgl.png">
+		</a>
+		<br/>
+		<a href="#">
+			<h4 class="head">&gt&gt Trabalho 1 de CG</h4>
+		</a>
+		<br/>
+		<div id="commands">
+			<h5> Número de recursão: </h5>
+			<sup>1</sup> <input id="deepness" type="range" min="1" max="8" step="1" value="5"> <sup>8</sup>
+		</div>
+	</header>
+
+	<!-- Campo principal com elemento canvas -->
+	<section>
+		<h2 class="sect">
+			* Utilize os comandos da barra lateral para interagir com o elemento *
+		</h2>
+		<br/>
+		<br/>
+		<br/>
+		<canvas id="gl-canvas" width="400" height="400">
+			<h4 class="error"> Oops ... your browser doesn't support the HTML5 canvas element. :( </h4>
+		</canvas>
+	</section>
+
+	<!-- Rodapé da página -->
+	<footer>
+		<h4> Website desenhado e implementado por <a href="https://br.linkedin.com/in/mborgesufrjcc"><cite> Maurício Borges </cite></a> </h4>
+	</footer>
+</body>
+</html>
+<!-- Fim do documento -->

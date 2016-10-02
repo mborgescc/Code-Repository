@@ -1,0 +1,88 @@
+body {
+    background-image: url("images/background.jpg");
+}
+header {
+    text-align:center;
+    position: fixed;
+    width: 230px;
+    left: 0px;
+    top: 15px;
+    bottom: 26px;
+    padding: 10px;
+    float: left;
+}
+
+section {
+    background-color: #FFFFFF;
+    position: fixed;
+    top: 0px;
+    left: 251px;
+    right: 0px;
+    bottom: 26px;
+    padding: 25px;
+    text-align: center;
+}
+
+footer {
+    background-color: #000000;
+    position: fixed;
+    height: 50px;
+    bottom: 0px;
+    left: 0px;
+    right:0px;
+    padding: 0px;
+    font-family: monospace;
+    color: #FFFFFF;
+    text-align: center;
+}
+
+img.logo {
+    height: 100px;
+    width: 170px;
+}
+
+a {
+    text-decoration: none;
+}
+
+p.head {
+    font-family: monospace;
+    color: #696969;
+    text-align: justify;
+    text-indent: 25px;
+}
+
+h2.sect {
+    font-family: monospace;
+    text-align: center;
+}
+
+h4.head {
+    font-family: monospace;
+    color: #696969;
+}
+
+h4.error {
+    font-family: monospace;
+    color: red;
+}
+
+table {
+    margin: 0 auto;
+    display: none;
+}
+
+tr:nth-child(even){
+    background-color: #F2F2F2;
+}
+
+td {
+    width: 200px;
+    font-family: monospace;
+    font-size: 1.3em;
+}
+
+#message {
+    font-family: monospace;
+    font-size: 1em;
+}
