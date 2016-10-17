@@ -2,6 +2,7 @@
 var canvas;
 var gl;
 var points = [];
+//var colors=[];
 
 //  Variáveis do programa
 var NumTimesToSubdivide = 5;
@@ -19,6 +20,14 @@ var vertices = [
         vec2(  Math.cos(Math.PI/6), -Math.sin(Math.PI/6) )
     ];
 
+//var cores = [
+//        vec4(1.0, 0.0, 0.0, 1.0),
+//        vec4(0.0,0.0,0.0,1.0)
+//    ];
+
+//var matrixDistortion = [
+//        vec4(cos())]
+
 //  Inicialização da página
 window.onload = function init()
 {
@@ -27,9 +36,10 @@ window.onload = function init()
     gl = WebGLUtils.setupWebGL( canvas );
     if ( !gl ) { alert( "WebGL isn't available" ); }
         
-    //  Tratando evento de alteração de profundidade para a recursão de desenho de triângulos
+    //  Tratando eventos
     document.getElementById("deepness").onchange = function(event) {
         NumTimesToSubdivide = parseInt(event.target.value);
+        divideTriangle( vertices[0], vertices[1], vertices[2], NumTimesToSubdivide);
     }
 
     document.getElementById("quickness").onchange = function(event) {
@@ -38,6 +48,14 @@ window.onload = function init()
 
     document.getElementById("fill").onchange = function(event) {
         FILL = event.target.checked;
+    }
+
+    document.getElementById("clock").onchange = function(event) {
+        CLOCKWISE = true;
+    }
+
+    document.getElementById("notclock").onchange = function(event) {
+        CLOCKWISE = false;
     }
 
     divideTriangle( vertices[0], vertices[1], vertices[2], NumTimesToSubdivide);
@@ -50,16 +68,26 @@ window.onload = function init()
     var program = initShaders( gl, "vertex-shader", "fragment-shader" );
     gl.useProgram( program );
 
-    bufferId = gl.createBuffer();   
-    // Carregando dados na GPU
-    gl.bindBuffer( gl.ARRAY_BUFFER, bufferId );
-    gl.bufferData( gl.ARRAY_BUFFER, flatten(points), gl.STATIC_DRAW );
+    bufferId = gl.createBuffer(); 
+    gl.bindBuffer( gl.ARRAY_BUFFER, bufferId );  
+
+    //var cBuffer = gl.createBuffer();
+    //gl.bindBuffer( gl.ARRAY_BUFFER, cBuffer );
+
+    //var vColor = gl.getAttribLocation( program, "vColor" );
+    //gl.vertexAttribPointer( vColor, 4, gl.FLOAT, false, 0, 0 );
 
     //Posição dos vértices
     vPosition = gl.getAttribLocation( program, "vPosition" );
-    // Associando variáveis do shader com o buffer de dados
     gl.vertexAttribPointer( vPosition, 2, gl.FLOAT, false, 0, 0 );
-    gl.enableVertexAttribArray( vPosition );
+
+    //Distorção dos vértices
+    //distortion = gl.getAttribLocation( program, "distortion" );
+    //gl.vertexAttribPointer(distortion+0,4,gl.FLOAT,false,0,0);
+    //gl.vertexAttribPointer(distortion+1,4,gl.FLOAT,false,0,0);
+    //gl.vertexAttribPointer(distortion+2,4,gl.FLOAT,false,0,0);
+    //gl.vertexAttribPointer(distortion+3,4,gl.FLOAT,false,0,0);
+
 
     //Matriz de rotação
     rotationMatrix = gl.getUniformLocation(program, 'rotationMatrix');
@@ -95,17 +123,24 @@ function divideTriangle( a, b, c, count )
         divideTriangle( a, ab, ac, count );
         divideTriangle( c, ac, bc, count );
         divideTriangle( b, bc, ab, count );
-        if(FILL){divideTriangle(ab,ac,bc,count);}
+        if(FILL){
+            divideTriangle(ab, bc, ac, count );
+        }
     }
 }
 
 function render()
 {
     // First, initialize the corners of our gasket with three points.
-    if(angle >= 360){
+    if(angle >= 360||angle <= -360){
         angle = 0;
     }
-    angle += SPEED;
+
+    if(CLOCKWISE){
+        angle += SPEED;
+    } else{
+        angle -= SPEED;
+    }
 
     var radian = Math.PI * angle;
     var cos = Math.cos(radian), sin = Math.sin(radian);
@@ -116,13 +151,26 @@ function render()
                                     0.0,0.0,0.0,1.0]);
 
     points = [];
+    //colors = [];
+
     divideTriangle( vertices[0], vertices[1], vertices[2], NumTimesToSubdivide);
+
+    //colors.push(cores[0]);
+    //colors.push(cores[1]);
+
+    // Carregando dados na GPU
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(points), gl.STATIC_DRAW );
+    //gl.bufferData( gl.ARRAY_BUFFER, flatten(colors), gl.STATIC_DRAW );
+
+    // Associando variáveis do shader com o buffer de dados
+    gl.enableVertexAttribArray( vPosition );
+    //gl.enableVertexAttribArray( vColor );
 
     gl.uniformMatrix4fv(rotationMatrix, false, matrix);
 
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.drawArrays( gl.TRIANGLES, 0, points.length );
+    //if(FILL){gl.drawArrays(gl.LINE_LOOP,0,points.length);}
 
     window.requestAnimFrame(render);
 }
-

@@ -4,7 +4,7 @@
 <html lang="pt-BR">
 <head>
 	<meta charset="UTF-8">
-	<meta name="keywords" content="triangulo, trabalho, computação gráfica, torção, rodar">
+	<meta name="keywords" content="poligono, trabalho, computação gráfica, rodar">
 	<meta name="description" content="Aplicação em WebGL para desenhar recursivamente triângulos e criar efeitos.">
 	<meta name="author" content="Maurício Borges Pereira Júnior">
 	<title> Trabalho em WebGL </title>
@@ -25,18 +25,19 @@
 
 	<script id="fragment-shader" type="x-shader/x-fragment">
 		precision mediump float;
+		uniform vec4 fcolor;
 
 		void
 		main()
 		{
-			gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0 );
+			gl_FragColor = fcolor;
 		}
 	</script>
 
-	<script type="text/javascript" src="./gasket2_files/webgl-utils.js"></script>
-	<script type="text/javascript" src="./gasket2_files/initShaders.js"></script>
-	<script type="text/javascript" src="./gasket2_files/MV.js"></script>
-	<script type="text/javascript" src="./gasket2_files/gasket2.js"></script>
+	<script type="text/javascript" src="./poligono_files/webgl-utils.js"></script>
+	<script type="text/javascript" src="./poligono_files/initShaders.js"></script>
+	<script type="text/javascript" src="./poligono_files/MV.js"></script>
+	<script type="text/javascript" src="./poligono_files/poligono.js"></script>
 </head>
 <body>
 	<!-- Barra lateral com logo e opções -->
@@ -46,15 +47,14 @@
 		</a>
 		<br/>
 		<a href="#">
-			<h4 class="head">&gt&gt Trabalho 1 de CG</h4>
+			<h4 class="head">&gt&gt Trabalho 2 de CG</h4>
 		</a>
 		<br/>
 		<form id="commands">
-			<h5>Preencher? <input id="fill" type="checkbox"/></h5>
-			<h5>Sentido:</h5>
+			<h5>Sentido de rotação:</h5>
 			<input id="clock" type="radio" name="s" value="clock" checked><sup>Horário</sup> <input id="notclock" type="radio" name="s" value="notclock"><sup>Anti-Horário</sup>
-			<h5> Número de recursão: </h5>
-			<sup>1</sup> <input id="deepness" type="range" min="1" max="8" step="1" value="5"/> <sup>8</sup>
+			<h5> Número de lados: </h5>
+			<input id="sides" type="number" min="3" max="25" step="1" value="5"/>
 			<h5> Velocidade de rotação: </h5>
 			<sup>0</sup> <input id="quickness" type="range" min="0" max="5" step="1" value="1"/> <sup>5</sup>
 		</form>
@@ -70,7 +70,7 @@
 		<br/>
 		<br/>
 		<canvas id="gl-canvas" width="400" height="400">
-			<h4 class="error"> Oops ... your browser doesn't support the HTML5 canvas element. :( </h4>
+			<h4 class="error"> Oops ... o seu navegador não suporta HTML5. :( <br>Por favor, atualize o seu navegador para visualizar esta animação.</h4>
 		</canvas>
 	</section>
 
