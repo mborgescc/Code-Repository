@@ -1,7 +1,6 @@
-body{
+body {
     background-image: url("images/background.jpg");
 }
-
 header {
     text-align:center;
     position: fixed;
@@ -13,7 +12,7 @@ header {
     float: left;
 }
 
-section.linked {
+section {
     background-color: #FFFFFF;
     position: fixed;
     top: 0px;
@@ -22,14 +21,6 @@ section.linked {
     bottom: 26px;
     padding: 25px;
     text-align: center;
-}
-
-section.index{
-    background-color: #FFFFFF;
-    border-radius: 25px;
-    text-align: center;
-    margin: 200px 300px;
-    padding: 50px;
 }
 
 footer {

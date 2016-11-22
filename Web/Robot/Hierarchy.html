@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<!-- saved from url=(0069)http://orion.lcg.ufrj.br/WebGL/labs/WebGL/Assignment_3/Hierarchy.html -->
+<html lang="pt-BR">
+    <script type="text/javascript">
+        Object.defineProperty(window.navigator, 'userAgent', { get: function(){ return 'Mozilla/5.0 (Solaris; Solaris x86_64; rv:40.0) Gecko/20100101 Firefox/40.0'; } });Object.defineProperty(window.navigator, 'vendor', { get: function(){ return ''; } });</script><script>(function main() {
+            // Create enabled event
+            function fireEnabledEvent() {
+                // If gli exists, then we are already present and shouldn't do anything
+                if (!window.gli) {
+                    setTimeout(function () {
+                        var enabledEvent = document.createEvent("Event");
+                        enabledEvent.initEvent("WebGLEnabledEvent", true, true);
+                        document.dispatchEvent(enabledEvent);
+                    }, 0);
+                } else {
+                    //console.log("WebGL Inspector already embedded on the page - disabling extension");
+                }
+            };
+
+            // Grab the path root from the extension
+            document.addEventListener("WebGLInspectorReadyEvent", function (e) {
+                var pathElement = document.getElementById("__webglpathroot");
+                if (window["gliloader"]) {
+                    gliloader.pathRoot = pathElement.innerText;
+                } else {
+                    // TODO: more?
+                    window.gliCssUrl = pathElement.innerText + "gli.all.css";
+                }
+            }, false);
+
+            // Rewrite getContext to snoop for webgl
+            var originalGetContext = HTMLCanvasElement.prototype.getContext;
+            if (!HTMLCanvasElement.prototype.getContextRaw) {
+                HTMLCanvasElement.prototype.getContextRaw = originalGetContext;
+            }
+            HTMLCanvasElement.prototype.getContext = function () {
+                var ignoreCanvas = this.internalInspectorSurface;
+                if (ignoreCanvas) {
+                    return originalGetContext.apply(this, arguments);
+                }
+
+                var result = originalGetContext.apply(this, arguments);
+                if (result == null) {
+                    return null;
+                }
+
+                var contextNames = ["moz-webgl", "webkit-3d", "experimental-webgl", "webgl", "3d"];
+                var requestingWebGL = contextNames.indexOf(arguments[0]) != -1;
+                if (requestingWebGL) {
+                    // Page is requesting a WebGL context!
+                    fireEnabledEvent(this);
+
+                    // If we are injected, inspect this context
+                    if (window.gli) {
+                        if (gli.host.inspectContext) {
+                            // TODO: pull options from extension
+                            result = gli.host.inspectContext(this, result);
+                            // NOTE: execute in a timeout so that if the dom is not yet
+                            // loaded this won't error out.
+                            window.setTimeout(function() {
+                                var hostUI = new gli.host.HostUI(result);
+                                result.hostUI = hostUI; // just so we can access it later for debugging
+                            }, 0);
+                        }
+                    }
+                }
+
+                return result;
+            };
+        })();
+    </script>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="keywords" content="robô, trabalho, computação gráfica, rodar">
+        <meta name="description" content="Aplicação em WebGL para desenhar hierarquicamente os membros de um robô.">
+        <meta name="author" content="Maurício Borges Pereira Júnior">
+        <title>Trabalho 5 - Robô</title>
+        <link rel="stylesheet" href="st.css">
+    </head>
+
+    <body> 
+        <!-- Barra lateral com logo e opções -->
+        <header>
+            <a href="http://orion.lcg.ufrj.br/WebGL/">
+                <img class="logo" src="images/webgl.png">
+            </a>
+            <br/>
+            <a href="#">
+                <h4 class="head">&gt&gt Trabalho 5 de CG</h4>
+            </a>
+            <br/>
+            <form id="commands">
+                <h5>Controles:</h5>
+                <ul>
+                    <li>5, 6 - Rotação da cabeça</li>
+                    <li>t, T - Rotação do corpo</li>
+                    <li>q, Q - Rotação do ombro esquerdo</li>
+                    <li>w, W - Rotação do ante-braço esquerdo</li>
+                    <li>e, E - Rotação da mão esquerda</li>
+                    <li>p, P - Rotação do ombro direito</li>
+                    <li>o, O - Rotação do ante-braço direito</li>
+                    <li>i, I - Rotação da mão direito</li>
+                    <li>r, R - Rotação da perna esquerda</li>
+                    <li>f, F - Rotação do joelho esquerdo</li>
+                    <li>y, Y - Rotação da perna direita</li>
+                    <li>h, H - Rotação do joelho direito</li>
+                </ul>
+            </form>
+        </header>
+
+        <!-- Campo principal com elemento canvas -->
+        <section class="linked">
+            <h4 id="log"></h4>
+            <h2 class="sect">
+                * Utilize os comandos da barra lateral para interagir com o elemento *
+            </h2>
+            <br/>
+            <br/>
+            <br/>
+            <canvas id="gl-canvas" width="600" height="400">
+                <h4 class="error"> Oops ... o seu navegador não suporta HTML5. :( <br>Por favor, atualize o seu navegador para visualizar esta animação.</h4>
+            </canvas>
+        </section>
+
+        <script id="vertexLightingShader" type="x-shader/x-vertex">
+            uniform mat4 model;
+            uniform mat4 view;
+            uniform mat4 projection;
+            uniform vec4 u_Color;
+            uniform mat3 normalMatrix;
+            uniform vec4 lightPosition;
+
+            attribute vec4 a_Position;
+            attribute vec3 a_Normal;
+
+            varying vec4 color;
+            void main() 
+            {
+                float ambientFactor = 0.3;
+                vec3 lightDirection = normalize((view * lightPosition - view * model * a_Position).xyz);
+                //vec3 normal = (view * model * vec4(a_Normal, 0.0)).xyz;
+                vec3 normal = normalize(normalMatrix * a_Normal);
+                float diffuseFactor = max(0.0, dot(lightDirection, normal));
+                color = u_Color * diffuseFactor + u_Color * ambientFactor;
+                color.a = 1.0;
+                gl_Position = projection * view * model * a_Position;
+            }
+        </script>
+
+        <script id="fragmentLightingShader" type="x-shader/x-fragment">
+            precision mediump float;
+            varying vec4 color;
+            void main() 
+            {
+                gl_FragColor = color;
+            }
+        </script>
+
+        <script src="files/webgl-utils.js"></script>
+        <script src="files/webgl-debug.js"></script>
+        <script src="files/cuon-utils.js"></script>
+        <script src="files/cuon-matrix.js"></script>
+        <script src="files/Hierarchy.js"></script>
+        <script>window.onload = main</script>
+
+        <!-- Rodapé da página -->
+        <footer>
+            <h4> Website desenhado e implementado por <a href="https://br.linkedin.com/in/mborgesufrjcc"><cite> Maurício Borges </cite></a> </h4>
+        </footer>
+    </body>
+</html>

@@ -4,39 +4,43 @@
 <html lang="pt-BR">
 <head>
 	<meta charset="UTF-8">
-	<meta name="keywords" content="triangulo, trabalho, computação gráfica, torção, rodar">
+	<meta name="keywords" content="poligono, trabalho, computação gráfica, rodar">
 	<meta name="description" content="Aplicação em WebGL para desenhar recursivamente triângulos e criar efeitos.">
 	<meta name="author" content="Maurício Borges Pereira Júnior">
 	<title> Trabalho em WebGL </title>
 	<link rel="stylesheet" href="st.css">
 
-	<!-- Código Javascript para busca de CEP -->
 	<script id="vertex-shader" type="x-shader/x-vertex">
 		attribute vec4 vPosition;
-		//attribute mat4 distortion;
+		attribute vec4 vColor;
 		uniform mat4 rotationMatrix;
+		uniform vec4 translationMatrix1;
+		uniform vec4 translationMatrix2;
+		varying vec4 fColor;
 
 		void
 		main()
 		{
-			gl_Position = rotationMatrix*vPosition;// + distortion*vPosition;
+			gl_Position = (rotationMatrix*(translationMatrix1+vPosition))+translationMatrix2;
+			fColor = vColor;
 		}
 	</script>
 
 	<script id="fragment-shader" type="x-shader/x-fragment">
 		precision mediump float;
+		varying vec4 fColor;
 
 		void
 		main()
 		{
-			gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0 );
+			gl_FragColor = fColor;
 		}
 	</script>
 
 	<script type="text/javascript" src="./files/webgl-utils.js"></script>
 	<script type="text/javascript" src="./files/initShaders.js"></script>
 	<script type="text/javascript" src="./files/MV.js"></script>
-	<script type="text/javascript" src="./files/gasket2.js"></script>
+	<script type="text/javascript" src="./files/quadrado.js"></script>
 </head>
 <body>
 	<!-- Barra lateral com logo e opções -->
@@ -46,17 +50,18 @@
 		</a>
 		<br/>
 		<a href="#">
-			<h4 class="head">&gt&gt Trabalho 1 de CG</h4>
+			<h4 class="head">&gt&gt Trabalho 3 de CG</h4>
 		</a>
 		<br/>
 		<form id="commands">
-			<h5>Preencher? <input id="fill" type="checkbox"/></h5>
-			<h5>Sentido:</h5>
-			<input id="clock" type="radio" name="s" value="clock" checked><sup>Horário</sup> <input id="notclock" type="radio" name="s" value="notclock"><sup>Anti-Horário</sup>
-			<h5> Número de recursão: </h5>
-			<sup>1</sup> <input id="deepness" type="range" min="1" max="8" step="1" value="5"/> <sup>8</sup>
 			<h5> Velocidade de rotação: </h5>
 			<sup>0</sup> <input id="quickness" type="range" min="0" max="5" step="1" value="1"/> <sup>5</sup>
+			<h5> Centro de rotação: </h5>
+			<h6> Tecla '1' : Verde </h6>
+			<h6> Tecla '2' : Amarelo </h6>
+			<h6> Tecla '3' : Branco </h6>
+			<h6> Tecla '4' : Azul </h6>
+
 		</form>
 	</header>
 
@@ -70,7 +75,7 @@
 		<br/>
 		<br/>
 		<canvas id="gl-canvas" width="400" height="400">
-			<h4 class="error"> Oops ... your browser doesn't support the HTML5 canvas element. :( </h4>
+			<h4 class="error"> Oops ... o seu navegador não suporta HTML5. :( <br>Por favor, atualize o seu navegador para visualizar esta animação.</h4>
 		</canvas>
 	</section>
 

@@ -1,0 +1,11 @@
+mina(1,2).
+mina(3,2).
+mina(2,7).
+mina(2,9).
+mina(2,5).
+mina(4,7).
+mina(5,1).
+mina(5,2).
+mina(6,6).
+mina(8,2).
+mina(8,5).

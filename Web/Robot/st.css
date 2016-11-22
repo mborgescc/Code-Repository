@@ -5,7 +5,7 @@ body{
 header {
     text-align:center;
     position: fixed;
-    width: 230px;
+    width: 350px;
     left: 0px;
     top: 15px;
     bottom: 26px;
@@ -17,7 +17,7 @@ section.linked {
     background-color: #FFFFFF;
     position: fixed;
     top: 0px;
-    left: 251px;
+    left: 351px;
     right: 0px;
     bottom: 26px;
     padding: 25px;
@@ -78,6 +78,13 @@ h4.error {
 
 h4.form {
     font-family: monospace;
+    color: #000000;
+}
+
+ul {
+    font-family: monospace;
+    font-size: 12px;
+    text-align: justify;
     color: #000000;
 }
 

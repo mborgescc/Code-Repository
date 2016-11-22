@@ -25,19 +25,19 @@
 
 	<script id="fragment-shader" type="x-shader/x-fragment">
 		precision mediump float;
-		uniform vec4 fcolor;
+		uniform vec4 fColor;
 
 		void
 		main()
 		{
-			gl_FragColor = fcolor;
+			gl_FragColor = fColor;
 		}
 	</script>
 
-	<script type="text/javascript" src="./poligono_files/webgl-utils.js"></script>
-	<script type="text/javascript" src="./poligono_files/initShaders.js"></script>
-	<script type="text/javascript" src="./poligono_files/MV.js"></script>
-	<script type="text/javascript" src="./poligono_files/poligono.js"></script>
+	<script type="text/javascript" src="./files/webgl-utils.js"></script>
+	<script type="text/javascript" src="./files/initShaders.js"></script>
+	<script type="text/javascript" src="./files/MV.js"></script>
+	<script type="text/javascript" src="./files/rotating_cube.js"></script>
 </head>
 <body>
 	<!-- Barra lateral com logo e opções -->
@@ -61,7 +61,7 @@
 	</header>
 
 	<!-- Campo principal com elemento canvas -->
-	<section>
+	<section class="linked">
 		<h4 id="log"></h4>
 		<h2 class="sect">
 			* Utilize os comandos da barra lateral para interagir com o elemento *
